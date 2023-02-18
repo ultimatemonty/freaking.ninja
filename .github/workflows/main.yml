@@ -28,9 +28,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           audience: sts.amazonaws.com
 
-      - name: deploy to s3
-        env:
-          
+      - name: deploy to s3          
         run: |
           npx @11ty/eleventy
           aws s3 cp \
