@@ -1,0 +1,40 @@
+name: build and publish
+
+permissions:
+  id-token: write # required to use OIDC authentication
+  contents: read # required to checkout the code from the rep
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: {}
+
+concurrency:
+  group: ci-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          role-to-assume: ${{ secrets.AWS_S3_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+          audience: sts.amazonaws.com
+
+      - name: deploy to s3
+        env:
+          
+        run: |
+          npx @11ty/eleventy
+          aws s3 cp \
+            --recursive \
+            --acl public-read \
+            --region ${{ env.AWS_REGION }} \
+            ./_site/ s3://${{ env.AWS_S3_BUCKET }}
