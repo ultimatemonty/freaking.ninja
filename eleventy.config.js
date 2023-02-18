@@ -1,7 +1,13 @@
 module.exports = function (eleventyConfig) {
-    eleventyConfig.addWatchTarget("./assets/css/")
-    eleventyConfig.addPassthroughCopy('assets')
+    eleventyConfig.addWatchTarget("./public/css/")
+    eleventyConfig.addPassthroughCopy('public')
     return {
-        passthroughFileCopy: true
+      dir: {
+        input: "src",         // default: "."
+        includes: "../_includes",  // default: "_includes"
+        data: "../_data",          // default: "_data"
+        output: "../_site"
+      },
+      passthroughFileCopy: true
     }
 }
