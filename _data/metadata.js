@@ -5,7 +5,7 @@ module.exports = {
 	"description": "Fucking around and finding out.",
 	"author": {
 		"name": "Chris McCuller",
-		"email": "chris@themccullers.com",
+		"email": "i.am@freaking.ninja",
 		"url": "https://freaking.ninja/about-me/"
 	}
 }
