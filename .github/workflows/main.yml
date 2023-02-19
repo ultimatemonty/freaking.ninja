@@ -33,12 +33,14 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Build Site
+        run: npm run build
+
       - name: Deploy to netlify
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
           netlify deploy \
-            --build \
             --dir=_site \
             --prod
