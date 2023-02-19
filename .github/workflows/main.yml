@@ -1,9 +1,5 @@
 name: build and publish
 
-permissions:
-  id-token: write # required to use OIDC authentication
-  contents: read # required to checkout the code from the rep
-
 on:
   push:
     branches:
@@ -20,19 +16,14 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v3
-      
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          role-to-assume: ${{ secrets.AWS_S3_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
-          audience: sts.amazonaws.com
 
-      - name: deploy to s3          
+      - name: deploy to netlify
+        env:
+          token: ${{ secrets.NETLIFY_API_TOKEN }}
+          siteId: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
           npx @11ty/eleventy
-          aws s3 cp \
-            --recursive \
-            --acl public-read \
-            --region ${{ vars.AWS_REGION }} \
-            ./_site/ s3://${{ vars.AWS_S3_BUCKET }}
+          netlify deploy \
+            --site=${{ env.siteId }} \
+            --auth=${{ env.token }} \
+            --prod

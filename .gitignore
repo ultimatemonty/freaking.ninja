@@ -2,3 +2,6 @@ package-lock.json
 node_modules
 _site
 .DS_Store
+
+# Local Netlify folder
+.netlify

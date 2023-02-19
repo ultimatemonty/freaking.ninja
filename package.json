@@ -13,16 +13,17 @@
     "type": "git",
     "url": "github.com/ultimatemonty/freaking.ninja"
   },
-		"author": {
-			"name": "Chris McCuller",
-			"email": "chris@themccullers.com",
-			"url": "https://freaking.ninja/about-me"
-		},
+  "author": {
+    "name": "Chris McCuller",
+    "email": "chris@themccullers.com",
+    "url": "https://freaking.ninja/about-me"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=14"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^2.0.0"
+    "@11ty/eleventy": "^2.0.0",
+    "netlify-cli": "^12.13.1"
   }
 }
