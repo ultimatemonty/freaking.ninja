@@ -10,37 +10,35 @@ concurrency:
   group: ci-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
-jobs:
-  deploy:
-    name: 'Deploy to Netlify'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: jsmrcaga/action-netlify-deploy@v1.1.0
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          NETLIFY_DEPLOY_TO_PROD: true
-          build_directory: '_site'
-
 # jobs:
-#   build_deploy:
+#   deploy:
+#     name: 'Deploy to Netlify'
 #     runs-on: ubuntu-latest
 #     steps:
-#       - name: Checkout Repo
-#         uses: actions/checkout@v3
-
-#       - name: Install Dependencies
-#         run: npm install
-
-#       - name: Build Site
-#         run: npm run build
-
-#       - name: Deploy to netlify
-#         env:
+#       - uses: actions/checkout@v3
+#       - uses: jsmrcaga/action-netlify-deploy@v1.1.0
+#         with:
 #           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
 #           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-#         run: |
-#           netlify deploy \
-#             --dir=_site \
-#             --prod
+#           NETLIFY_DEPLOY_TO_PROD: true
+#           build_directory: '_site'
+
+jobs:
+  build_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Deploy to netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          netlify deploy \
+            --build \
+            --dir=_site \
+            --prod
