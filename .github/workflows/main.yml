@@ -26,4 +26,5 @@ jobs:
           netlify deploy \
             --site=${{ env.siteId }} \
             --auth=${{ env.token }} \
+            --dir=_site
             --prod
