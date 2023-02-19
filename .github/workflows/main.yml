@@ -12,19 +12,22 @@ concurrency:
 
 jobs:
   build_deploy:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout Repo
         uses: actions/checkout@v3
 
-      - name: deploy to netlify
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Site
+        run: npm run build
+
+      - name: Deploy to netlify
         env:
-          token: ${{ secrets.NETLIFY_API_TOKEN }}
-          siteId: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_API_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          npx @11ty/eleventy
           netlify deploy \
-            --site=${{ env.siteId }} \
-            --auth=${{ env.token }} \
             --dir=_site \
             --prod
